@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border: 1px black solid;
+            padding: 20px;
+        }
+
+        #textCanvas {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <span id='CaptchaTXT' style='background-color: Aqua;'></span>
+    <!--input id='CaptchaTXT' readonly--!>
+    <input id='Captch'>
+    <button onclick="GenerateCaptcha()">更新</button>
+    <br />
+    <br />
+</body>
+
+<script>
+    $(document).ready(function () {
+        GenerateCaptcha();
+    });
+
+    function GenerateCaptcha() {
+        var chr1 = Math.ceil(Math.random() * 10) + '';
+        var chr2 = Math.ceil(Math.random() * 10) + '';
+        var chr3 = Math.ceil(Math.random() * 10) + '';
+
+        var str = new Array(2).join().replace(/(.|$)/g, function () { return ((Math.random() * 36) | 0).toString(36)[Math.random() < .5 ? "toString" : "toUpperCase"](); });
+        var captchaCode = str + chr1 + ' ' + chr2 + ' ' + chr3;
+        document.getElementById("CaptchaTXT").innerHTML = captchaCode
+    }
+
+    /* Validating Captcha Function */
+    function ValidCaptcha() {
+        var str1 = removeSpaces(document.getElementById('Captcha').value).toUpperCase();
+        var str2 = removeSpaces(document.getElementById('CaptchaTXT').value).toUpperCase();
+        console.log(str1); console.log(str2);
+        if (str1 == str2) return true;
+        else {
+            alert('驗證碼錯誤');
+            GenerateCaptcha();
+            document.getElementById('Captcha').value = "";
+            return false;
+        }
+    }
+
+    /* Remove spaces from Captcha Code */
+    function removeSpaces(string) {
+        return string.split(' ').join('');
+    }
+</script>
+
+</html>
